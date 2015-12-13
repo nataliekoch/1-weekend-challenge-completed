@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script type='text/javascript' src='app.js'></script>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
 	</head>
 
 	<body>
-		<form id='employeeInfo'>
-			<label for='employeename'>Employee Name:</label>
-			<input type='text' id='employeename' name='employeename'/>
-			<label for='employeenumber'>Employee Number:</label>
-			<input type='text' id='employeenumber' name='employeenumber'/>
-			<label for='employeejob'>Job:</label>
-			<input type='text' id='employeejob' name='employeejob'/>
-			<label for='employeeyearlysalary'>Salary (Yearly)</label>
-			<input type='text' id='employeeyearlysalary' name='employeeyearlysalary'/>
-			<input type='submit' value='Submit Employee'/>
+		<h1>Employee Info Form</h1>
 
+		<form id='employeeInfo'>
+			<label for='employeename'></label>
+			<input class='textField' type='text' id='employeename' name='employeename' 
+			placeholder='Employee Name'/>
+
+			<label for='employeenumber'></label>
+			<input class='textField' type='text' id='employeenumber' name='employeenumber' placeholder='Employee Number'/>
+
+			<label for='employeejob'></label>
+			<input class='textField' type='text' id='employeejob' name='employeejob' placeholder='Job'/>
+
+			<label for='employeeyearlysalary'></label>
+			<input class='textField' type='text' id='employeeyearlysalary' name='employeeyearlysalary'
+			placeholder='Salary (Yearly)'/>
+			<input class = 'submitButton' type='submit' value='Submit'/>
 		</form>
 
 		<div id="employeeContainer"></div>

@@ -1,41 +1,58 @@
+//Set up an empty array to store the object created from the text field info
+//Estableing a varaible to hold the conversions from yearly salary to monthly
+
 var employeeArray = [];
-var monthlySalary = 0;
+var monthlySalary;
 
 $(document).ready(function(){
+	//Listen on id of employeeInfo for a submit button being clicked (or 'enter' key being pressed)
 	$("#employeeInfo").submit(function(event){
+		//prevents ".submit" default behavior of refreshing the page
 		event.preventDefault();
 
+		//set an empty object for text field info to be placed
 		var values = {};
 
-		console.log($("#employeeInfo").serializeArray());
+		
 		$.each($("#employeeInfo").serializeArray(), function(i, field){
 			values[field.name] = field.value;
 		})
 		
 		$("#employeeInfo").find("input[type=text]").val("");
-		console.log(values);
 		employeeArray.push(values);
 		monthlySalaryCalc(values.employeeyearlysalary);
 		appendDom(values);
-		
+
+		$(".outputInfo").on('click', '.deleteButton',  function(){
+			$(this).parents(".outputInfo").remove();
+			
+		});
 	});
 });
 
 function monthlySalaryCalc(salary){
-	salary = parseInt(salary);
-	monthlySalary += (salary/12);
-
+	if (typeof salary !== "number") {
+		monthlySalary = 0;
+	}
+	else {
+		salary = parseInt(salary);
+		monthlySalary = Math.round(salary/12);
+	}
 }
 
 function appendDom(employee){
-	console.log(employee);
-	$("#employeeContainer").append("<div class='employee'></div>");
+	$("#employeeContainer").append("<div class='outputInfo'>");
 	var $el = $("#employeeContainer").children().last();
-
-	$el.append("<p>" + employee.employeename + "</p>");
-	$el.append("<p>" + employee.employeenumber + "</p>");
-	$el.append("<p>" + employee.employeejob + "</p>");
-	$el.append("<p>" + employee.employeeyearlysalary + "</p>");
-	$el.append("<p> monthly salary: " + monthlySalary + "</p>");
-
+	
+	
+	$el.append(
+		// "<div class = 'employeeData'>" +
+			"<div> " + employee.employeename + "</div>" +
+			"<div> " + employee.employeenumber + "</div>" +
+			"<div> " + employee.employeejob + "</div>" +
+			"<div> " + employee.employeeyearlysalary + "</div>" +
+			"<div> monthly salary: " + monthlySalary + "</div>" +
+			"<button class = 'deleteButton'> Remove employee </button>" 
+		// "</div>"
+	);
 }
