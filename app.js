@@ -2,7 +2,7 @@
 //Estableing a varaible to hold the conversions from yearly salary to monthly
 
 var employeeArray = [];
-var monthlySalary;
+var monthlySalary = 0;
 
 $(document).ready(function(){
 	//Listen on id of employeeInfo for a submit button being clicked (or 'enter' key being pressed)
@@ -13,7 +13,7 @@ $(document).ready(function(){
 		//set an empty object for text field info to be placed
 		var values = {};
 
-		
+
 		$.each($("#employeeInfo").serializeArray(), function(i, field){
 			values[field.name] = field.value;
 		})
@@ -22,26 +22,27 @@ $(document).ready(function(){
 		employeeArray.push(values);
 		monthlySalaryCalc(values.employeeyearlysalary);
 		appendDom(values);
+	});
 
-		$(".outputInfo").on('click', '.deleteButton',  function(){
-			$(this).parents(".outputInfo").remove();
-			
-		});
+	$("#employeeContainer").on('click', '.deleteButton',  function(){
+		var removedSalary = $(this).parents(".outputInfo").data("monthly-salary");
+		removedSalary = Math.round(removedSalary/12)
+		monthlySalary = monthlySalary - removedSalary;
+		console.log(monthlySalary);
+		$("#monthlySalaryTotal")
+			.html("$" + monthlySalary);
+		$(this).parents(".outputInfo").remove();	
 	});
 });
 
 function monthlySalaryCalc(salary){
-	if (typeof salary !== "number") {
-		monthlySalary = 0;
-	}
-	else {
-		salary = parseInt(salary);
-		monthlySalary = Math.round(salary/12);
-	}
+	salary = parseInt(salary);
+	monthlySalary += Math.round(salary/12) || 0;
+	$("#monthlySalaryTotal").html("$" + monthlySalary);
 }
 
 function appendDom(employee){
-	$("#employeeContainer").append("<div class='outputInfo'>");
+	$("#employeeContainer").append("<div data-monthly-salary='" + employee.employeeyearlysalary + "' class='outputInfo'>");
 	var $el = $("#employeeContainer").children().last();
 	
 	
@@ -51,7 +52,6 @@ function appendDom(employee){
 			"<div> " + employee.employeenumber + "</div>" +
 			"<div> " + employee.employeejob + "</div>" +
 			"<div> " + employee.employeeyearlysalary + "</div>" +
-			"<div> monthly salary: " + monthlySalary + "</div>" +
 			"<button class = 'deleteButton'> Remove employee </button>" 
 		// "</div>"
 	);
